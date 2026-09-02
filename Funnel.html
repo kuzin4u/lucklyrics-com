@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sales Funnel + Profit Model — Amazon.com Seller (A10 · FBA 2026)</title>
+<style>
+:root{
+  --ink:#16202B; --soft:#5A6673; --rule:#DDE3E8; --rule2:#EDEFF2;
+  --paper:#FCFCFB; --card:#FFFFFF; --band:#F3F6F8;
+  --blue:#0F5A8C; --blue-bg:#E8F1F8; --accent:#0B6B57; --accent-bg:#E3F1EC;
+  --amz:#232F3E; --amz-gold:#E8912A; --amz-gold-bg:#FCF3E6;
+  --red:#B23A1E; --red-bg:#F8ECE7; --warn:#8A6810; --warn-bg:#FBF4E3;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+  font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+/* header */
+header{background:var(--amz);color:#fff;padding:26px 0 22px}
+header .wrap{display:flex;flex-wrap:wrap;align-items:flex-end;gap:14px}
+.h-main{flex:1;min-width:280px}
+.h-kicker{font-size:12px;color:#B9C4CE;letter-spacing:.03em;text-transform:uppercase;font-weight:600}
+h1{font-size:clamp(20px,2.5vw,27px);margin:7px 0 6px;font-weight:700;letter-spacing:-.01em;line-height:1.15}
+.h-sub{color:#C6D0D9;font-size:13.5px;max-width:70ch;margin:0}
+.h-badge{font-size:11.5px;font-family:var(--mono);background:rgba(232,145,42,.16);color:var(--amz-gold);
+  border:1px solid rgba(232,145,42,.4);padding:5px 10px;border-radius:3px;white-space:nowrap}
+
+/* period bar */
+.period-bar{position:sticky;top:0;z-index:40;background:var(--paper);border-bottom:1px solid var(--rule);
+  padding:11px 0}
+.period-bar .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:14px}
+.period-bar label{font-size:13px;font-weight:600;color:var(--soft)}
+.period-bar input{width:90px}
+.period-bar .spacer{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+
+/* preset bar */
+.preset-bar{background:var(--band);border-bottom:1px solid var(--rule);padding:10px 0}
+.preset-bar .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.preset-label{font-size:12.5px;font-weight:600;color:var(--soft)}
+.preset-pills{display:inline-flex;flex-wrap:wrap;gap:6px}
+.preset-pills button{font-family:inherit;font-size:12.5px;border:1px solid var(--rule);background:#fff;
+  color:var(--ink);border-radius:20px;padding:6px 14px;cursor:pointer}
+.preset-pills button:hover{border-color:var(--amz)}
+.preset-pills button[aria-pressed="true"]{background:var(--amz);color:#fff;border-color:var(--amz)}
+.preset-hint{font-size:12px;color:var(--soft);font-family:var(--mono);margin-left:4px}
+@media(max-width:600px){.preset-hint{width:100%;margin-left:0}}
+button.tool{font-family:inherit;font-size:12.5px;border:1px solid var(--rule);background:#fff;color:var(--ink);
+  border-radius:4px;padding:7px 12px;cursor:pointer}
+button.tool:hover{border-color:var(--ink)}
+button.tool.primary{background:var(--amz);color:#fff;border-color:var(--amz)}
+button.tool.primary:hover{opacity:.92}
+
+/* layout */
+.grid{display:grid;grid-template-columns:1fr 340px;gap:22px;padding:22px 0 60px;align-items:start}
+@media (max-width:940px){.grid{grid-template-columns:1fr}}
+
+section.card{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:0;margin-bottom:16px;overflow:hidden}
+.card-head{padding:13px 16px;border-bottom:1px solid var(--rule2);display:flex;align-items:baseline;gap:9px;background:var(--band)}
+.card-head .num{font-family:var(--mono);font-size:11px;color:#fff;background:var(--blue);width:20px;height:20px;
+  border-radius:4px;display:inline-flex;align-items:center;justify-content:center;flex:none;font-weight:600}
+.card-head h2{font-size:15px;margin:0;font-weight:600}
+.card-head .tag{font-size:11px;color:var(--soft);margin-left:auto;font-weight:500}
+.card-body{padding:14px 16px}
+.card-sub{font-size:12.5px;color:var(--soft);margin:-4px 0 12px}
+
+.field{margin-bottom:11px}
+.field:last-child{margin-bottom:0}
+.field label{display:block;font-size:12.5px;color:var(--soft);margin-bottom:4px;font-weight:500}
+.field .u{color:#95A0A9;font-weight:400}
+input[type=number],select{width:100%;font-family:inherit;font-size:13.5px;color:var(--ink);
+  border:1px solid var(--rule);border-radius:5px;padding:7px 9px;background:#fff}
+input[type=number]:focus,select:focus{outline:2px solid var(--blue);outline-offset:-1px;border-color:var(--blue)}
+select{cursor:pointer}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+
+/* toggle pills */
+.toggle{display:inline-flex;border:1px solid var(--rule);border-radius:6px;overflow:hidden}
+.toggle button{font-family:inherit;font-size:12.5px;border:none;background:#fff;color:var(--soft);
+  padding:6px 12px;cursor:pointer}
+.toggle button[aria-pressed="true"]{background:var(--blue);color:#fff}
+
+/* levers note */
+.levers{background:var(--accent-bg);border-left:3px solid var(--accent);border-radius:0 5px 5px 0;
+  padding:9px 12px;margin-top:11px;font-size:12px;color:#0a4e40}
+.levers b{color:var(--accent)}
+.levers ul{margin:5px 0 0;padding-left:16px}
+.levers li{margin-bottom:3px}
+
+/* computed inline */
+.computed{background:var(--blue-bg);border-radius:6px;padding:9px 11px;margin-top:9px;
+  display:flex;justify-content:space-between;align-items:center;gap:10px}
+.computed .cf-label{font-size:12px;color:var(--soft)}
+.computed .cf-value{font-family:var(--mono);font-size:15px;font-weight:600;color:var(--blue)}
+
+/* ranking result grid */
+.rank-out{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:11px}
+.rank-out .cell{background:var(--band);border-radius:6px;padding:8px 10px}
+.rank-out .k{font-size:11px;color:var(--soft)}
+.rank-out .v{font-family:var(--mono);font-size:14px;font-weight:600;margin-top:2px}
+
+/* results panel */
+.results{position:sticky;top:64px}
+.res-card{background:var(--amz);color:#fff;border-radius:8px;padding:18px;margin-bottom:14px}
+.res-card h3{margin:0 0 3px;font-size:13px;color:#B9C4CE;font-weight:600;text-transform:uppercase;letter-spacing:.03em}
+.res-hero{font-family:var(--mono);font-size:32px;font-weight:700;letter-spacing:-.02em;margin:2px 0}
+.res-hero.neg{color:#FF9B7A}
+.res-sub{font-size:12px;color:#B9C4CE}
+.res-lines{margin-top:14px;border-top:1px solid rgba(255,255,255,.14);padding-top:12px}
+.res-line{display:flex;justify-content:space-between;gap:10px;padding:4px 0;font-size:12.5px}
+.res-line .lbl{color:#C6D0D9}
+.res-line .val{font-family:var(--mono);font-weight:600}
+.res-line.sub{font-size:11.5px;color:#9DAAB6;padding:2px 0 2px 12px}
+.res-line.sub .val{color:#B9C4CE;font-weight:400}
+.res-line.total{border-top:1px solid rgba(255,255,255,.14);margin-top:6px;padding-top:9px;font-size:14px;font-weight:700}
+
+.kpi-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.kpi{background:var(--card);border:1px solid var(--rule);border-radius:7px;padding:11px 12px}
+.kpi .k{font-size:11px;color:var(--soft)}
+.kpi .v{font-family:var(--mono);font-size:19px;font-weight:700;margin-top:2px}
+.kpi .v.good{color:var(--accent)} .kpi .v.bad{color:var(--red)}
+
+/* funnel viz */
+.funnel{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:14px 16px;margin-bottom:14px}
+.funnel h3{margin:0 0 10px;font-size:13px;font-weight:600}
+.fstage{margin-bottom:7px}
+.fstage .top{display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px}
+.fstage .top .nm{color:var(--soft)} .fstage .top .vl{font-family:var(--mono);font-weight:600}
+.fbar{height:9px;border-radius:5px;background:linear-gradient(90deg,var(--blue),#3E8BC0)}
+.fstage.bottleneck .nm{color:var(--red);font-weight:600}
+.fstage.bottleneck .fbar{background:linear-gradient(90deg,var(--red),#D66A4E)}
+
+/* alerts */
+.alert{border-radius:6px;padding:10px 12px;margin-bottom:12px;font-size:12.5px;display:none}
+.alert.on{display:block}
+.alert.warn{background:var(--warn-bg);border-left:3px solid var(--warn);color:#6b520c}
+.alert.cap{background:var(--red-bg);border-left:3px solid var(--red);color:#7d2913}
+.alert b{font-weight:700}
+
+/* methodology */
+.method{margin-top:28px;border-top:2px solid var(--ink);padding-top:20px}
+.method h2{font-size:17px;margin:0 0 12px}
+.method h3{font-size:14px;margin:18px 0 7px;color:var(--blue)}
+.method p,.method li{font-size:13px;color:#39434D;max-width:90ch}
+.method ul{padding-left:18px}
+.method li{margin-bottom:5px}
+.method table{width:100%;border-collapse:collapse;margin:10px 0;font-size:12.5px}
+.method th,.method td{border:1px solid var(--rule);padding:7px 9px;text-align:left;vertical-align:top}
+.method th{background:var(--band);font-weight:600}
+.method code{font-family:var(--mono);font-size:12px;background:var(--band);padding:1px 4px;border-radius:3px}
+.disclaim{background:var(--warn-bg);border-left:3px solid var(--warn);padding:11px 14px;border-radius:0 5px 5px 0;
+  font-size:12.5px;color:#6b520c;margin:14px 0}
+
+footer{padding:22px 0 50px;color:var(--soft);font-size:12px;border-top:1px solid var(--rule);margin-top:24px}
+footer a{color:var(--blue)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="h-main">
+      <div class="h-kicker">Interactive business model · demo</div>
+      <h1>Amazon Sales Funnel &amp; Profit Model</h1>
+      <p class="h-sub">Full cycle — impressions → clicks → add-to-cart → orders → delivered → repeat — optimised for
+        <b>net profit per period</b>. Move any lever; every number recalculates instantly. Built on the A10 ranking
+        logic and FBA fee structure as of 2026.</p>
+    </div>
+    <div class="h-badge">Amazon.com · USD · FBA</div>
+  </div>
+</header>
+
+<div class="period-bar">
+  <div class="wrap">
+    <label for="periodInput">Period, days</label>
+    <input type="number" id="periodInput" value="30" min="1" step="1">
+    <div class="spacer">
+      <button class="tool" id="btnReset">Reset defaults</button>
+      <button class="tool primary" id="btnXlsx">Download Excel model</button>
+    </div>
+  </div>
+</div>
+
+<div class="preset-bar">
+  <div class="wrap">
+    <span class="preset-label">Product preset:</span>
+    <div class="preset-pills" id="presetPills">
+      <button data-preset="wipes" aria-pressed="true">Microfibre cloths</button>
+      <button data-preset="earbuds" aria-pressed="false">Bluetooth earbuds</button>
+      <button data-preset="serum" aria-pressed="false">Face serum</button>
+    </div>
+    <span class="preset-hint" id="presetHint">Household · 15% referral · low-cost consumable</span>
+  </div>
+</div>
+
+<main class="wrap">
+<div class="grid">
+
+  <!-- LEFT: inputs -->
+  <div class="inputs">
+
+    <!-- Ranking -->
+    <section class="card">
+      <div class="card-head"><span class="num">A</span><h2>A10 ranking — organic vs sponsored weight</h2><span class="tag">2026 logic</span></div>
+      <div class="card-body">
+        <p class="card-sub">Final score = Organic weight × Organic score + Sponsored weight × Sponsored score.
+          Under A10, organic and external-traffic sales carry more ranking momentum than the same volume from a
+          Sponsored Products click — so the default leans organic.</p>
+        <div class="field">
+          <label>Organic weight, % <span class="u">(sponsored = 100 − organic)</span></label>
+          <input type="number" id="rankWeightOrganic" value="65" min="0" max="100" step="1">
+        </div>
+        <div class="two">
+          <div class="field"><label>Category impressions / period <span class="u">(search volume pool)</span></label>
+            <input type="number" id="categoryImpressions" value="800000" min="0" step="1000"></div>
+          <div class="field"><label>Competitors in results <span class="u">#</span></label>
+            <input type="number" id="competitorsCount" value="40" min="1" step="1"></div>
+        </div>
+        <div class="two">
+          <div class="field"><label>Avg competitor score <span class="u">(0–100)</span></label>
+            <input type="number" id="competitorAvgScore" value="52" min="0" max="100" step="1"></div>
+          <div class="field"><label>Base popularity score <span class="u">(0–100)</span></label>
+            <input type="number" id="orgPopularity" value="70" min="0" max="100" step="1"></div>
+        </div>
+        <div class="field">
+          <label>External traffic quality <span class="u">(0–100 — Google / social / influencer, A10 signal)</span></label>
+          <input type="number" id="extTraffic" value="55" min="0" max="100" step="1">
+        </div>
+        <div class="field">
+          <label>Sponsored ACoS target, % <span class="u">(ad cost ÷ ad sales)</span></label>
+          <input type="number" id="acosTarget" value="25" min="0" max="100" step="1">
+        </div>
+        <div class="rank-out">
+          <div class="cell"><div class="k">Our final score</div><div class="v" id="finalScoreOut">—</div></div>
+          <div class="cell"><div class="k">Search position</div><div class="v" id="positionOut">—</div></div>
+          <div class="cell"><div class="k">Est. impressions / period</div><div class="v" id="impressionsOut">—</div></div>
+          <div class="cell"><div class="k">Buy Box won</div><div class="v" id="buyboxOut">—</div></div>
+        </div>
+        <div class="levers">
+          <b>How A10 differs from a velocity-only model:</b>
+          <ul>
+            <li>Conversion rate is the single strongest factor — weak CVR caps rank regardless of ad spend.</li>
+            <li>Organic &amp; external-traffic sales outweigh the same volume of PPC-attributed sales.</li>
+            <li>Seller authority (rating, return rate, tenure) gates Buy Box eligibility.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stage 1 -->
+    <section class="card">
+      <div class="card-head"><span class="num">1</span><h2>Reach — SEO + Sponsored</h2><span class="tag">impressions → clicks</span></div>
+      <div class="card-body">
+        <div class="two">
+          <div class="field"><label>CTR (click / impression), %</label>
+            <input type="number" id="ctr" value="0.55" min="0" step="0.01"></div>
+          <div class="field"><label>CPC <span class="u">$ per click</span></label>
+            <input type="number" id="cpc" value="0.90" min="0" step="0.05"></div>
+        </div>
+        <div class="field">
+          <label>Optimised title &amp; keywords (SEO)?</label>
+          <div class="toggle" data-toggle="useSeo">
+            <button data-v="yes" aria-pressed="true">Yes</button>
+            <button data-v="no" aria-pressed="false">No</button>
+          </div>
+        </div>
+        <div class="field">
+          <label>Exact-match keyword budget share, %</label>
+          <input type="number" id="exactPhraseShare" value="60" min="0" max="100" step="5">
+        </div>
+        <div class="field">
+          <label>Running a Deal / Coupon?</label>
+          <div class="toggle" data-toggle="dealActive">
+            <button data-v="yes" aria-pressed="false">Yes</button>
+            <button data-v="no" aria-pressed="true">No</button>
+          </div>
+        </div>
+        <div class="levers">
+          <b>Digitised lever effects:</b>
+          <ul>
+            <li>SEO: +10% CTR and text-relevance 85 vs 40 in the organic score.</li>
+            <li>Exact-match budget: up to +30% order-CR at 100% share.</li>
+            <li>Deal / Coupon: +15% impressions (deal placement) and +10% order-CR.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stage 2 -->
+    <section class="card">
+      <div class="card-head"><span class="num">2</span><h2>Interest — listing</h2><span class="tag">click → cart</span></div>
+      <div class="card-body">
+        <div class="field"><label>CR click → add-to-cart, %</label>
+          <input type="number" id="crCart" value="28" min="0" max="100" step="1"></div>
+        <div class="levers"><b>Levers:</b> A+ content, 6–7 images, comparison chart, 20-sec video, benefit-led bullets.</div>
+      </div>
+    </section>
+
+    <!-- Stage 3 -->
+    <section class="card">
+      <div class="card-head"><span class="num">3</span><h2>Decision — trust</h2><span class="tag">cart → order</span></div>
+      <div class="card-body">
+        <div class="field"><label>CR cart → order, % <span class="u">(base)</span></label>
+          <input type="number" id="crOrder" value="66" min="0" max="100" step="1"></div>
+        <div class="field">
+          <label>Rating ≥ 4.5 with strong review count?</label>
+          <div class="toggle" data-toggle="ratingHigh">
+            <button data-v="yes" aria-pressed="true">Yes</button>
+            <button data-v="no" aria-pressed="false">No</button>
+          </div>
+        </div>
+        <div class="levers"><b>Levers:</b> review velocity via Vine, fast Q&amp;A, Best Seller badge, bundle discount. Rating ≥4.5 lifts the reviews factor 85 vs 45 in the organic score.</div>
+      </div>
+    </section>
+
+    <!-- Stage 4 -->
+    <section class="card">
+      <div class="card-head"><span class="num">4</span><h2>Purchase — unit economics</h2><span class="tag">FBA P&amp;L</span></div>
+      <div class="card-body">
+        <div class="two">
+          <div class="field"><label>Sale price <span class="u">$</span></label>
+            <input type="number" id="price" value="14.99" min="0" step="0.5"></div>
+          <div class="field"><label>Landed cost (COGS) <span class="u">$/unit</span></label>
+            <input type="number" id="cost" value="3.80" min="0" step="0.1"></div>
+        </div>
+        <div class="two">
+          <div class="field"><label>Referral fee, % <span class="u">(category)</span></label>
+            <input type="number" id="referralRate" value="15" min="0" max="45" step="1"></div>
+          <div class="field"><label>FBA size tier</label>
+            <select id="sizeTier">
+              <option value="small_lp">Small standard, sub-$10 (LP)</option>
+              <option value="small" selected>Small standard ($10–50)</option>
+              <option value="large">Large standard</option>
+              <option value="small_over">Small oversize</option>
+            </select></div>
+        </div>
+        <div class="field">
+          <label>Price above market? <span class="u">(A10 competitiveness signal)</span></label>
+          <div class="toggle" data-toggle="priceAbove">
+            <button data-v="yes" aria-pressed="false">Yes</button>
+            <button data-v="no" aria-pressed="true">No</button>
+          </div>
+        </div>
+        <div class="computed">
+          <span class="cf-label">FBA fulfilment fee / unit (+3.5% fuel)</span>
+          <span class="cf-value" id="fbaFeeOut">—</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stage 5 -->
+    <section class="card">
+      <div class="card-head"><span class="num">5</span><h2>Retention — LTV</h2><span class="tag">repeat purchase</span></div>
+      <div class="card-body">
+        <div class="two">
+          <div class="field"><label>Repeat-purchase rate, %</label>
+            <input type="number" id="repeatRate" value="22" min="0" max="100" step="1"></div>
+          <div class="field"><label>Extra cost / order <span class="u">$ (insert, QR)</span></label>
+            <input type="number" id="packExtra" value="0.25" min="0" step="0.05"></div>
+        </div>
+        <div class="field"><label>Income tax on profit, % <span class="u">(set 0 to ignore; VAT handled at EU version)</span></label>
+          <input type="number" id="taxRate" value="21" min="0" max="60" step="1"></div>
+        <div class="levers"><b>Levers:</b> Subscribe &amp; Save, insert card with care guide, cross-sell SKUs, review follow-up. Repeat units add revenue with no extra ad spend.</div>
+      </div>
+    </section>
+
+    <!-- Constraints -->
+    <section class="card">
+      <div class="card-head"><span class="num">6</span><h2>Constraints &amp; penalties</h2><span class="tag">capacity · returns · fees</span></div>
+      <div class="card-body">
+        <div class="two">
+          <div class="field"><label>Stock on hand for period <span class="u">units</span></label>
+            <input type="number" id="stockLimit" value="4000" min="0" step="100"></div>
+          <div class="field"><label>Daily processing cap <span class="u">orders/day</span></label>
+            <input type="number" id="dailyCapacity" value="200" min="0" step="10"></div>
+        </div>
+        <div class="two">
+          <div class="field"><label>Return rate after delivery, %</label>
+            <input type="number" id="returnRate" value="6" min="0" max="100" step="1"></div>
+          <div class="field"><label>Return processing cost <span class="u">$/return</span></label>
+            <input type="number" id="returnCost" value="4.00" min="0" step="0.25"></div>
+        </div>
+        <div class="two">
+          <div class="field"><label>Cancellation rate, %</label>
+            <input type="number" id="cancelRate" value="1.5" min="0" max="100" step="0.5"></div>
+          <div class="field"><label>Price-index CTR penalty, % <span class="u">(if above market)</span></label>
+            <input type="number" id="priceIndexPenalty" value="20" min="0" max="100" step="1"></div>
+        </div>
+        <div class="field">
+          <label>Aged inventory (&gt;181 days) surcharge active? <span class="u">2026 FBA rule</span></label>
+          <div class="toggle" data-toggle="agedActive">
+            <button data-v="yes" aria-pressed="false">Yes</button>
+            <button data-v="no" aria-pressed="true">No</button>
+          </div>
+        </div>
+        <div class="field"><label>Aged surcharge <span class="u">$/unit if active</span></label>
+          <input type="number" id="agedSurcharge" value="1.50" min="0" step="0.25"></div>
+        <div class="levers"><b>What this means:</b> if demand exceeds stock or the daily cap, sales and ad spend are throttled to the physical ceiling. Above-market price penalises CTR (worse rank). Aged inventory over 181 days adds a per-unit surcharge on top of monthly storage.</div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- RIGHT: results -->
+  <div class="results">
+
+    <div class="alert cap" id="capAlert"></div>
+    <div class="alert warn" id="bottleneckAlert"></div>
+
+    <div class="res-card">
+      <h3>Net profit for period</h3>
+      <div class="res-hero" id="netProfitOut">—</div>
+      <div class="res-sub" id="netProfitSub">after all Amazon fees, ads, COGS, penalties &amp; tax</div>
+      <div class="res-lines" id="plLines"></div>
+    </div>
+
+    <div class="kpi-row">
+      <div class="kpi"><div class="k">Margin</div><div class="v" id="marginOut">—</div></div>
+      <div class="kpi"><div class="k">ROAS</div><div class="v" id="roasOut">—</div></div>
+      <div class="kpi"><div class="k">Units sold</div><div class="v" id="unitsOut">—</div></div>
+      <div class="kpi"><div class="k">TACoS</div><div class="v" id="tacosOut">—</div></div>
+    </div>
+
+    <div class="funnel">
+      <h3>Funnel volumes</h3>
+      <div id="funnelViz"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- methodology -->
+<div class="method">
+  <h2>How the model works</h2>
+  <p>The engine is a five-stage funnel driving a per-period P&amp;L. Every input recalculates the whole chain instantly, so
+  you can find the lever combination that maximises net profit. It carries the same architecture as the Ozon version of
+  this model, with the ranking formula, fee structure and penalty blocks rebuilt for Amazon.com.</p>
+
+  <h3>Funnel math</h3>
+  <ul>
+    <li>Impressions × CTR = clicks; clicks × CR(cart) = add-to-cart; cart × CR(order) = orders.</li>
+    <li>Orders − cancellations = net orders; net orders − returns = delivered units.</li>
+    <li>Delivered units × repeat-rate = repeat units, added with <b>no extra ad spend</b> — the retention effect.</li>
+    <li>The <b>bottleneck</b> is the lowest-converting step; a small gain there yields the largest lift in total sales.</li>
+    <li><b>Capacity</b>: if delivered demand exceeds stock or daily cap × period, sales and ads are clipped to the ceiling.</li>
+  </ul>
+
+  <h3>A10 ranking (2026)</h3>
+  <p>Amazon has never officially renamed A9 to A10; "A10" is the seller community's shorthand for observed shifts since ~2020.
+  The model reflects the current consensus: conversion rate is the strongest single factor, organic and external-traffic
+  sales carry more ranking momentum than the same volume of Sponsored-attributed sales, and seller authority gates Buy Box
+  eligibility. Exact weights are not published — the 65/35 organic/sponsored default is a modelling assumption, adjustable
+  by slider for scenario analysis.</p>
+
+  <h3>Unit economics &amp; FBA fees (2026)</h3>
+  <table>
+    <tr><th>Cost</th><th>Model value</th><th>Note</th></tr>
+    <tr><td>Referral fee</td><td>15% (editable 8–45%)</td><td>Most categories 15%; check your category schedule.</td></tr>
+    <tr><td>FBA fulfilment fee</td><td>$2.43 / $3.30 / $4.98 / $8.74 by tier</td><td>US rates updated Jan 15, 2026; +$0.08 avg increase.</td></tr>
+    <tr><td>Fuel &amp; logistics surcharge</td><td>3.5% of fulfilment fee</td><td>Effective April 17, 2026.</td></tr>
+    <tr><td>Storage / aged inventory</td><td>surcharge from day 181</td><td>On top of monthly storage; toggle in constraints.</td></tr>
+  </table>
+  <p>Advertising is modelled two ways at once: CPC × clicks gives the raw ad spend, while the <b>ACoS target</b> and resulting
+  <b>TACoS</b> (total ad cost ÷ total revenue) show ad efficiency across the whole account, not just the ad channel.</p>
+
+  <div class="disclaim">
+    <b>Demonstration model.</b> All coefficients (elasticities, position→impression decay, lever effects) are modelling
+    assumptions chosen to illustrate direction and magnitude — Amazon does not publish exact elasticities. Fee figures reflect
+    publicly reported 2026 rates; always confirm the exact fee for a specific ASIN in Seller Central's FBA Revenue Calculator
+    before pricing. Replace demo numbers with your own account data to calibrate.
+  </div>
+
+  <h3>Adapting the model to any SKU</h3>
+  <p>Nothing in the engine is tied to a particular product — the presets above (microfibre cloths, Bluetooth earbuds,
+  face serum) just load different default values into the same fields. Switch preset to see how the economics shift:
+  electronics carry a low 8% referral fee but a higher price, larger FBA tier and more returns; beauty runs a 15% fee
+  above $10 but high margin and repeat rate; a household consumable is cheap, small-tier and volume-driven. To model
+  your own SKU, set these inputs and everything recalculates:</p>
+  <table>
+    <tr><th>Input</th><th>What to enter</th></tr>
+    <tr><td>Sale price &amp; landed cost</td><td>Your own figures in USD.</td></tr>
+    <tr><td>Referral fee %</td><td>Your category's rate — 8% electronics, 15% most, 17% apparel &gt;$20, up to 20% jewellery. Beauty &amp; grocery are 8% under $10 and 15% above.</td></tr>
+    <tr><td>FBA size tier</td><td>Pick the tier matching your dimensions/weight; the fulfilment fee follows.</td></tr>
+    <tr><td>CTR, CR, returns, repeat</td><td>From your Business Reports — the ranges differ a lot by niche.</td></tr>
+  </table>
+  <p>This is the line between self-service and custom work. An ordinary physical FBA SKU is a matter of changing these
+  numbers — a minute of typing. A product with a different <em>structure</em> — subscription-first economics,
+  parent/child variations in one listing, FBM logistics instead of FBA, or seasonal demand peaks — needs the model
+  extended, not just re-valued. That extension is where a bespoke build adds what a fixed template or an off-the-shelf
+  tool cannot.</p>
+
+
+  <table>
+    <tr><th>Model input</th><th>Source in Amazon Seller Central</th></tr>
+    <tr><td>Impressions, clicks, CTR</td><td>Brand Analytics → Search Query Performance; Campaign reports</td></tr>
+    <tr><td>CR cart / order, CVR</td><td>Business Reports → Detail Page Sales &amp; Traffic by ASIN</td></tr>
+    <tr><td>CPC, ACoS, ad sales</td><td>Advertising → Campaign Manager → bulk reports</td></tr>
+    <tr><td>Referral &amp; FBA fees actual</td><td>Reports → Payments → Transaction; FBA Revenue Calculator per ASIN</td></tr>
+    <tr><td>Return &amp; cancellation rate</td><td>Reports → Fulfilment → Returns; Voice of the Customer</td></tr>
+    <tr><td>Buy Box %, seller authority</td><td>Account Health; Business Reports (Buy Box %)</td></tr>
+    <tr><td>Storage &amp; aged inventory, IPI</td><td>Inventory → Inventory Performance Index; Storage fee reports</td></tr>
+    <tr><td>Repeat purchase / LTV</td><td>Brand Analytics → Repeat Purchase Behavior</td></tr>
+  </table>
+</div>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    Interactive business model · demonstration build · Amazon.com / USD.
+    A twin of the Ozon marketplace model, rebuilt on A10 ranking and 2026 FBA economics.
+    Numbers are illustrative — calibrate with your own Seller Central data.
+  </div>
+</footer>
+
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const numIds = ['periodInput','rankWeightOrganic','categoryImpressions','competitorsCount','competitorAvgScore',
+    'orgPopularity','extTraffic','acosTarget','ctr','cpc','exactPhraseShare','crCart','crOrder','price','cost',
+    'referralRate','priceIndexPenalty','repeatRate','packExtra','taxRate','stockLimit','dailyCapacity',
+    'returnRate','returnCost','cancelRate','agedSurcharge'];
+  const el = {}; numIds.forEach(id=>el[id]=$(id));
+  el.sizeTier = $('sizeTier');
+
+  // toggle state
+  const tog = {useSeo:true, dealActive:false, ratingHigh:true, priceAbove:false, agedActive:false};
+
+  // ----- constants (2026) -----
+  const FBA_FEE = { small_lp:2.43, small:3.30, large:4.98, small_over:8.74 };
+  const FUEL_SURCHARGE = 0.035;
+  // organic sub-weights adapted to A10: conversion-led, external traffic added
+  const W = { conv:0.34, extl:0.14, popularity:0.18, relevance:0.12, price:0.10, reviews:0.12 };
+  const W_SUM = W.conv + W.extl + W.popularity + W.relevance + W.price + W.reviews;
+
+  let prevConv = 8; // iterative feedback: yesterday's realised CVR feeds today's organic conv factor (%)
+
+  const money = n => (n<0? '−$':'$') + Math.abs(n).toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0});
+  const money2 = n => (n<0? '−$':'$') + Math.abs(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const num = n => Number(n).toLocaleString('en-US',{maximumFractionDigits:0});
+  const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
+
+  function readState(){
+    const s={};
+    numIds.forEach(id=>s[id]=parseFloat(el[id].value)||0);
+    s.sizeTier = el.sizeTier.value;
+    Object.assign(s, tog);
+    return s;
+  }
+
+  function compute(s){
+    const period = s.periodInput||30;
+
+    // ---- lever effects ----
+    const ctrAfterSeo = s.ctr * (s.useSeo?1.10:1.0);
+    const relevance = s.useSeo?85:40;
+    const crOrderEff = s.crOrder * (1 + s.exactPhraseShare/100*0.30) * (s.dealActive?1.10:1.0);
+    const priceScore = s.priceAbove?30:80;
+    const reviewScore = s.ratingHigh?85:45;
+
+    // ---- organic score (A10-style) ----
+    // conversion factor from previous realised CVR vs a "good" 10% benchmark
+    const convFactor = clamp((prevConv/10)*100, 0, 100);
+    const organicRaw = W.conv*convFactor + W.extl*s.extTraffic + W.popularity*s.orgPopularity
+                     + W.relevance*relevance + W.price*priceScore + W.reviews*reviewScore;
+    const organicScore = organicRaw / W_SUM;
+
+    // ---- sponsored score: better ACoS target + CTR/CR => stronger paid signal ----
+    const pClick = clamp(ctrAfterSeo,0,100)/100;
+    const pOrder = clamp(crOrderEff,0,100)/100;
+    const acosNorm = clamp((1 - s.acosTarget/50)*100, 0, 100); // lower ACoS = more efficient = higher score
+    const sponsoredScore = clamp((pClick*100*0.5 + pOrder*100*0.3 + acosNorm*0.2), 0, 100);
+
+    const wOrg = clamp(s.rankWeightOrganic,0,100);
+    const wSpon = 100 - wOrg;
+    const finalScore = (wOrg/100)*organicScore + (wSpon/100)*sponsoredScore;
+
+    // ---- position & impressions (exponential decay) ----
+    const advantage = finalScore - s.competitorAvgScore;
+    // advantage of 0 → mid pack; each point of score advantage moves ~0.5 position up
+    let position = Math.round(clamp(Math.ceil(s.competitorsCount/2) - advantage*0.7, 1, s.competitorsCount));
+    const DECAY = 8; // impression share decay across ranked positions
+    let wsum=0; for(let i=1;i<=s.competitorsCount;i++) wsum+=Math.exp(-i/DECAY);
+    const ourW = Math.exp(-position/DECAY);
+    let impressions = s.categoryImpressions*(ourW/wsum);
+    if(s.dealActive) impressions*=1.15;
+    impressions = Math.max(0,impressions);
+
+    // Buy Box eligibility from seller authority proxy (rating + returns)
+    const buyBoxWon = (s.ratingHigh && s.returnRate<=10 && !s.priceAbove);
+
+    // ---- effective CTR after penalties ----
+    let ctr = ctrAfterSeo;
+    if(s.priceAbove) ctr *= (1 - s.priceIndexPenalty/100);
+    ctr = Math.max(0,ctr);
+
+    // ---- funnel volumes ----
+    const clicks = impressions * ctr/100;
+    const cartAdds = clicks * s.crCart/100;
+    const ordersDemand = cartAdds * crOrderEff/100;
+    const cancelled = ordersDemand * s.cancelRate/100;
+    const netOrders = ordersDemand - cancelled;
+
+    // capacity
+    const capLimit = Math.min(s.stockLimit||Infinity, (s.dailyCapacity||Infinity)*period);
+    const deliveredDemand = netOrders; // Amazon: paid at order, no pickup no-show
+    const delivered = Math.min(deliveredDemand, capLimit);
+    const lostToCapacity = Math.max(0, deliveredDemand - delivered);
+
+    const returns = delivered * s.returnRate/100;
+    const soldUnits = delivered - returns;
+    const repeatUnits = soldUnits * s.repeatRate/100;
+    const totalUnits = soldUnits + repeatUnits;
+
+    // realised CVR feeds next render (orders / clicks)
+    prevConv = clicks>0 ? clamp((ordersDemand/clicks)*100,0,100) : prevConv;
+
+    // ---- unit economics ----
+    const referral = s.price * s.referralRate/100;
+    let fba = FBA_FEE[s.sizeTier] || FBA_FEE.small;
+    fba = fba * (1+FUEL_SURCHARGE);
+    if(s.agedActive) fba += s.agedSurcharge;
+    const amazonPerUnit = referral + fba;
+
+    // ---- period totals ----
+    const revenue = s.price * totalUnits;
+    const amazonTotal = amazonPerUnit * totalUnits;
+    const cogsTotal = s.cost * totalUnits;
+    const packTotal = s.packExtra * totalUnits;
+    const adSpend = clicks * s.cpc;
+
+    const returnCostTotal = returns * s.returnCost;
+    const returnCogsLoss = returns * s.cost;
+    const penalties = returnCostTotal + returnCogsLoss;
+
+    const profitBeforeTax = revenue - amazonTotal - cogsTotal - packTotal - adSpend - penalties;
+    const tax = Math.max(0,profitBeforeTax) * s.taxRate/100;
+    const netProfit = profitBeforeTax - tax;
+
+    const margin = revenue>0 ? netProfit/revenue*100 : 0;
+    const roas = adSpend>0 ? revenue/adSpend : 0;
+    const tacos = revenue>0 ? adSpend/revenue*100 : 0;
+
+    // bottleneck: lowest conversion step
+    const steps = [
+      {name:'Impr → Click', cr: ctr},
+      {name:'Click → Cart', cr: s.crCart},
+      {name:'Cart → Order', cr: crOrderEff},
+    ];
+    let bottleneck = steps.reduce((a,b)=> b.cr<a.cr? b:a, steps[0]);
+
+    return {impressions,clicks,cartAdds,ordersDemand,netOrders,delivered,soldUnits,repeatUnits,totalUnits,
+      finalScore,position,buyBoxWon,fba,amazonPerUnit,revenue,amazonTotal,cogsTotal,packTotal,adSpend,
+      penalties,returnCostTotal,returnCogsLoss,profitBeforeTax,tax,netProfit,margin,roas,tacos,
+      lostToCapacity,bottleneck,referral,returns,cancelled};
+  }
+
+  function funnelBar(name,value,max,isBottleneck){
+    const pct = max>0? Math.max(2, value/max*100) : 0;
+    return `<div class="fstage ${isBottleneck?'bottleneck':''}">
+      <div class="top"><span class="nm">${name}</span><span class="vl">${num(value)}</span></div>
+      <div class="fbar" style="width:${pct}%"></div></div>`;
+  }
+
+  function render(){
+    const s = readState();
+    const r = compute(s);
+
+    // ranking outputs
+    $('finalScoreOut').textContent = r.finalScore.toFixed(1);
+    $('positionOut').textContent = '#'+num(r.position)+' of '+num(s.competitorsCount);
+    $('impressionsOut').textContent = num(r.impressions);
+    $('buyboxOut').textContent = r.buyBoxWon? 'Yes' : 'No';
+    $('fbaFeeOut').textContent = money2(r.fba);
+
+    // hero
+    const npEl = $('netProfitOut');
+    npEl.textContent = money(r.netProfit);
+    npEl.classList.toggle('neg', r.netProfit<0);
+
+    // P&L lines
+    $('plLines').innerHTML = [
+      ['Revenue', money(r.revenue), false, false],
+      ['Amazon fees (referral + FBA)', '−'+money(r.amazonTotal), false, false],
+      ['referral '+money2(r.referral)+'/u · FBA '+money2(r.fba)+'/u', '', true, false],
+      ['COGS', '−'+money(r.cogsTotal), false, false],
+      ['Ad spend', '−'+money(r.adSpend), false, false],
+      ['Returns & packaging', '−'+money(r.penalties+r.packTotal), false, false],
+      ['Tax', '−'+money(r.tax), false, false],
+      ['Net profit', money(r.netProfit), false, true],
+    ].map(([l,v,sub,total])=>`<div class="res-line ${sub?'sub':''} ${total?'total':''}">
+        <span class="lbl">${l}</span><span class="val">${v}</span></div>`).join('');
+
+    // KPIs
+    const mEl=$('marginOut'); mEl.textContent=r.margin.toFixed(1)+'%';
+    mEl.className='v '+(r.margin>=15?'good':r.margin<0?'bad':'');
+    $('roasOut').textContent = r.roas.toFixed(2)+'×';
+    $('unitsOut').textContent = num(r.totalUnits);
+    $('tacosOut').textContent = r.tacos.toFixed(1)+'%';
+
+    // funnel
+    const maxV = r.impressions||1;
+    $('funnelViz').innerHTML =
+      funnelBar('Impressions', r.impressions, maxV, false) +
+      funnelBar('Clicks', r.clicks, maxV, r.bottleneck.name==='Impr → Click') +
+      funnelBar('Add to cart', r.cartAdds, maxV, r.bottleneck.name==='Click → Cart') +
+      funnelBar('Orders', r.ordersDemand, maxV, r.bottleneck.name==='Cart → Order') +
+      funnelBar('Delivered', r.delivered, maxV, false) +
+      funnelBar('Sold (net returns)', r.soldUnits, maxV, false) +
+      funnelBar('+ Repeat', r.totalUnits, maxV, false);
+
+    // alerts
+    const cap = $('capAlert');
+    if(r.lostToCapacity>1){
+      cap.classList.add('on');
+      cap.innerHTML = `<b>Capacity ceiling hit.</b> ~${num(r.lostToCapacity)} units of demand lost — stock or daily cap is the limiter, not the funnel. Ads on those views are wasted.`;
+    } else cap.classList.remove('on');
+
+    const bn = $('bottleneckAlert');
+    bn.classList.add('on');
+    bn.innerHTML = `<b>Bottleneck: ${r.bottleneck.name}</b> at ${r.bottleneck.cr.toFixed(1)}%. A small gain here lifts total sales more than anywhere else.`;
+
+    return r;
+  }
+
+  // wire inputs
+  numIds.forEach(id=> el[id].addEventListener('input', render));
+  el.sizeTier.addEventListener('change', render);
+  document.querySelectorAll('[data-toggle]').forEach(t=>{
+    const key=t.dataset.toggle;
+    t.querySelectorAll('button').forEach(b=>{
+      b.addEventListener('click',()=>{
+        tog[key] = b.dataset.v==='yes';
+        t.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed', x===b?'true':'false'));
+        render();
+      });
+    });
+  });
+
+  $('btnReset').addEventListener('click',()=>location.reload());
+
+  // ---- Excel export ----
+  $('btnXlsx').addEventListener('click', ()=>downloadExcel());
+
+  function downloadExcel(){
+    const s=readState(); const r=compute(s);
+    // Build a SpreadsheetML (.xls) workbook — opens in Excel, formulas live where they matter.
+    const rows = [
+      ['Amazon Sales Funnel & Profit Model — export', ''],
+      ['Marketplace','Amazon.com (USD)'],
+      ['Period, days', s.periodInput],
+      ['',''],
+      ['INPUTS',''],
+      ['Organic weight %', s.rankWeightOrganic],
+      ['Category impressions', s.categoryImpressions],
+      ['Competitors', s.competitorsCount],
+      ['CTR %', s.ctr],
+      ['CPC $', s.cpc],
+      ['CR click→cart %', s.crCart],
+      ['CR cart→order %', s.crOrder],
+      ['Exact-match budget share %', s.exactPhraseShare],
+      ['Sale price $', s.price],
+      ['COGS $', s.cost],
+      ['Referral fee %', s.referralRate],
+      ['FBA size tier', s.sizeTier],
+      ['Repeat rate %', s.repeatRate],
+      ['Return rate %', s.returnRate],
+      ['Tax %', s.taxRate],
+      ['SEO on', s.useSeo?'yes':'no'],
+      ['Deal on', s.dealActive?'yes':'no'],
+      ['Rating high', s.ratingHigh?'yes':'no'],
+      ['Price above market', s.priceAbove?'yes':'no'],
+      ['',''],
+      ['FUNNEL',''],
+      ['Impressions', Math.round(r.impressions)],
+      ['Clicks', Math.round(r.clicks)],
+      ['Add to cart', Math.round(r.cartAdds)],
+      ['Orders', Math.round(r.ordersDemand)],
+      ['Delivered', Math.round(r.delivered)],
+      ['Sold (net returns)', Math.round(r.soldUnits)],
+      ['Repeat units', Math.round(r.repeatUnits)],
+      ['Total units', Math.round(r.totalUnits)],
+      ['Bottleneck', r.bottleneck.name+' @ '+r.bottleneck.cr.toFixed(1)+'%'],
+      ['',''],
+      ['RANKING',''],
+      ['Final score', r.finalScore.toFixed(1)],
+      ['Position', r.position+' of '+s.competitorsCount],
+      ['Buy Box won', r.buyBoxWon?'yes':'no'],
+      ['',''],
+      ['P&L (period)',''],
+      ['Revenue', r.revenue.toFixed(2)],
+      ['Amazon fees', (-r.amazonTotal).toFixed(2)],
+      ['  referral $/u', r.referral.toFixed(2)],
+      ['  FBA $/u (incl fuel)', r.fba.toFixed(2)],
+      ['COGS', (-r.cogsTotal).toFixed(2)],
+      ['Ad spend', (-r.adSpend).toFixed(2)],
+      ['Returns cost', (-r.penalties).toFixed(2)],
+      ['Packaging', (-r.packTotal).toFixed(2)],
+      ['Tax', (-r.tax).toFixed(2)],
+      ['NET PROFIT', r.netProfit.toFixed(2)],
+      ['Margin %', r.margin.toFixed(1)],
+      ['ROAS', r.roas.toFixed(2)],
+      ['TACoS %', r.tacos.toFixed(1)],
+    ];
+    const xmlRows = rows.map(([a,b])=>{
+      const cell = v => {
+        if(v==='') return '<Cell><Data ss:Type="String"></Data></Cell>';
+        const isNum = typeof v==='number' || (/^-?\d+(\.\d+)?$/.test(String(v)));
+        const t = isNum?'Number':'String';
+        const val = String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        return `<Cell><Data ss:Type="${t}">${val}</Data></Cell>`;
+      };
+      const bold = (a===a.toUpperCase() && a.length>2 && b==='') ? ' ss:StyleID="hdr"':'';
+      return `<Row${bold}>${cell(a)}${cell(b)}</Row>`;
+    }).join('');
+    const xml = `<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+ <Styles>
+  <Style ss:ID="hdr"><Font ss:Bold="1"/><Interior ss:Color="#F0F0F0" ss:Pattern="Solid"/></Style>
+ </Styles>
+ <Worksheet ss:Name="Amazon Model">
+  <Table><Column ss:Width="220"/><Column ss:Width="160"/>${xmlRows}</Table>
+ </Worksheet>
+</Workbook>`;
+    const blob = new Blob([xml], {type:'application/vnd.ms-excel'});
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download='Amazon_Sales_Funnel_Model.xls';
+    a.click();
+  }
+
+  // ---- product presets (2026 fees verified) ----
+  const PRESETS = {
+    wipes: {
+      hint: 'Household · 15% referral · low-cost consumable',
+      num: {price:14.99, cost:3.80, referralRate:15, ctr:0.55, crCart:28, crOrder:66,
+            repeatRate:22, returnRate:6, returnCost:4.00, packExtra:0.25, orgPopularity:70,
+            extTraffic:55, categoryImpressions:800000, competitorsCount:40, competitorAvgScore:52,
+            cpc:0.90, acosTarget:25, exactPhraseShare:60},
+      sel: {sizeTier:'small'}, tog: {ratingHigh:true}
+    },
+    earbuds: {
+      hint: 'Electronics · 8% referral · higher price, higher returns',
+      num: {price:39.99, cost:11.50, referralRate:8, ctr:0.48, crCart:22, crOrder:58,
+            repeatRate:8, returnRate:14, returnCost:6.50, packExtra:0.60, orgPopularity:72,
+            extTraffic:60, categoryImpressions:1600000, competitorsCount:60, competitorAvgScore:54,
+            cpc:1.40, acosTarget:30, exactPhraseShare:55},
+      sel: {sizeTier:'large'}, tog: {ratingHigh:true}
+    },
+    serum: {
+      hint: 'Beauty · 15% referral (>$10) · high margin, repeat-driven',
+      num: {price:24.99, cost:4.20, referralRate:15, ctr:0.62, crCart:31, crOrder:64,
+            repeatRate:35, returnRate:4, returnCost:3.50, packExtra:0.45, orgPopularity:62,
+            extTraffic:65, categoryImpressions:600000, competitorsCount:50, competitorAvgScore:54,
+            cpc:1.10, acosTarget:28, exactPhraseShare:65},
+      sel: {sizeTier:'small'}, tog: {ratingHigh:true}
+    }
+  };
+
+  function applyPreset(key){
+    const p = PRESETS[key];
+    if(!p) return;
+    Object.entries(p.num).forEach(([id,v])=>{ if(el[id]) el[id].value = v; });
+    if(p.sel) Object.entries(p.sel).forEach(([id,v])=>{ if(el[id]) el[id].value = v; });
+    if(p.tog) Object.entries(p.tog).forEach(([k,v])=>{
+      tog[k]=v;
+      const t=document.querySelector(`[data-toggle="${k}"]`);
+      if(t) t.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed', (b.dataset.v==='yes')===v?'true':'false'));
+    });
+    document.getElementById('presetHint').textContent = p.hint;
+    prevConv = 8; // reset feedback memory on product switch
+    render();
+  }
+
+  document.querySelectorAll('#presetPills button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      document.querySelectorAll('#presetPills button').forEach(x=>x.setAttribute('aria-pressed', x===b?'true':'false'));
+      applyPreset(b.dataset.preset);
+    });
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
