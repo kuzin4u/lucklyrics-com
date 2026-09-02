@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Amazon Profit Model — LuckLyrics</title>
+<meta name="description" content="Free interactive Amazon FBA unit-economics model. See your net profit, bottleneck and best lever instantly — then let us build your store.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#0D1117; --cream:#F6EEE0; --gold:#D4A843; --gold-dim:rgba(212,168,67,0.12);
+  --gold-glow:rgba(212,168,67,0.25); --green:#2AA05C; --green-dim:rgba(42,160,92,0.12);
+  --purple:#8B5CF6; --text:#F0EAE0; --muted:rgba(240,234,224,0.5); --border:rgba(240,234,224,0.08);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--night);color:var(--text);
+  font-family:'Inter',system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+a{color:var(--gold);text-decoration:none}
+h1,h2,h3{font-family:'Fraunces',serif;font-weight:700;line-height:1.12;letter-spacing:-.01em}
+
+/* nav */
+nav{display:flex;align-items:center;justify-content:space-between;padding:20px 0;
+  border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(13,17,23,.92);
+  backdrop-filter:blur(10px);z-index:50}
+.nav-logo{font-family:'Fraunces',serif;font-weight:900;font-size:21px;color:var(--cream)}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:26px}
+.nav-links a{color:var(--text);font-size:14.5px;font-weight:500;opacity:.85}
+.nav-links a:hover{opacity:1;color:var(--gold)}
+.nav-actions{display:flex;gap:14px;align-items:center}
+.nav-lang{color:var(--muted);font-size:13px;font-weight:600}
+.nav-cta{background:var(--gold);color:var(--night);padding:9px 18px;border-radius:8px;
+  font-size:14px;font-weight:600}
+.nav-cta:hover{filter:brightness(1.08)}
+@media(max-width:720px){.nav-links{display:none}}
+
+/* hero */
+.hero{padding:64px 0 40px;text-align:center}
+.eyebrow{display:inline-block;font-size:12.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--gold);background:var(--gold-dim);border:1px solid var(--gold-glow);
+  padding:6px 14px;border-radius:20px;margin-bottom:22px}
+.hero h1{font-size:clamp(32px,5vw,52px);color:var(--cream);margin:0 auto 18px;max-width:16ch}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero-sub{font-size:clamp(16px,2vw,19px);color:var(--muted);max-width:60ch;margin:0 auto 12px;line-height:1.5}
+.hero-free{display:inline-flex;align-items:center;gap:8px;margin-top:14px;font-size:14px;color:var(--green);
+  font-weight:600;background:var(--green-dim);padding:8px 16px;border-radius:20px}
+.hero-free::before{content:"●";font-size:9px}
+
+/* model frame */
+.model-section{padding:20px 0 20px}
+.model-shell{background:#FCFCFB;border:1px solid var(--border);border-radius:16px;overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.model-topbar{display:flex;align-items:center;gap:10px;padding:10px 16px;background:#16202B;
+  border-bottom:1px solid rgba(255,255,255,.06)}
+.dot{width:11px;height:11px;border-radius:50%}
+.dot.r{background:#FF5F57}.dot.y{background:#FEBC2E}.dot.g{background:#28C840}
+.model-topbar .url{margin-left:12px;font-size:12.5px;color:#8A96A2;font-family:ui-monospace,Menlo,monospace}
+.model-frame{width:100%;height:1600px;border:0;display:block;background:#FCFCFB}
+.frame-note{text-align:center;font-size:13px;color:var(--muted);margin-top:14px}
+.frame-note a{border-bottom:1px solid var(--gold-glow)}
+
+/* how it maps to offer */
+.bridge{padding:60px 0 20px}
+.bridge-head{text-align:center;margin-bottom:44px}
+.bridge-head h2{font-size:clamp(26px,3.5vw,38px);color:var(--cream);margin:0 auto 14px;max-width:20ch}
+.bridge-head p{color:var(--muted);max-width:60ch;margin:0 auto;font-size:16px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:820px){.steps{grid-template-columns:1fr}}
+.step{background:rgba(240,234,224,.02);border:1px solid var(--border);border-radius:14px;padding:26px 22px}
+.step-n{font-family:'Fraunces',serif;font-size:15px;font-weight:700;color:var(--gold);
+  width:38px;height:38px;border-radius:50%;background:var(--gold-dim);border:1px solid var(--gold-glow);
+  display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.step h3{font-size:18px;color:var(--cream);margin:0 0 8px}
+.step p{color:var(--muted);font-size:14.5px;margin:0}
+
+/* offer */
+.offer{padding:60px 0}
+.offer-card{background:linear-gradient(160deg,rgba(212,168,67,.08),rgba(139,92,246,.05));
+  border:1px solid var(--gold-glow);border-radius:20px;padding:clamp(30px,5vw,56px);text-align:center}
+.offer-card .eyebrow{margin-bottom:18px}
+.offer-card h2{font-size:clamp(26px,4vw,40px);color:var(--cream);margin:0 auto 16px;max-width:22ch}
+.offer-card h2 em{font-style:normal;color:var(--gold)}
+.offer-card > p{color:var(--muted);max-width:58ch;margin:0 auto 28px;font-size:16.5px;line-height:1.55}
+.offer-list{display:grid;grid-template-columns:repeat(2,1fr);gap:14px 30px;max-width:720px;margin:0 auto 34px;text-align:left}
+@media(max-width:640px){.offer-list{grid-template-columns:1fr}}
+.offer-list li{list-style:none;padding-left:30px;position:relative;font-size:15px;color:var(--text)}
+.offer-list li::before{content:"✦";position:absolute;left:0;color:var(--gold);font-size:15px}
+.offer-cta{display:inline-flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.btn-gold{background:var(--gold);color:var(--night);padding:15px 32px;border-radius:10px;
+  font-size:16px;font-weight:700}
+.btn-gold:hover{filter:brightness(1.08)}
+.btn-outline{border:1px solid var(--gold-glow);color:var(--cream);padding:15px 30px;border-radius:10px;
+  font-size:16px;font-weight:600}
+.btn-outline:hover{background:var(--gold-dim)}
+.offer-alt{margin-top:22px;font-size:14px;color:var(--muted)}
+
+/* footer */
+footer{border-top:1px solid var(--border);padding:40px 0;margin-top:20px}
+.foot-grid{display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between}
+.foot-logo{font-family:'Fraunces',serif;font-weight:900;font-size:19px;color:var(--cream)}
+.foot-logo span{color:var(--gold)}
+.foot-links{display:flex;gap:22px;flex-wrap:wrap}
+.foot-links a{color:var(--muted);font-size:14px}
+.foot-links a:hover{color:var(--gold)}
+.foot-note{color:var(--muted);font-size:12.5px;margin-top:16px;max-width:80ch}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;padding:0">
+    <div class="nav-logo">Luck<span>Lyrics</span></div>
+    <div class="nav-links">
+      <a href="index.html#features">Platform</a>
+      <a href="index.html#cases">Cases</a>
+      <a href="index.html#packages">Pricing</a>
+      <a href="tools.html" style="color:var(--gold)">Tools</a>
+    </div>
+    <div class="nav-actions">
+      <a class="nav-lang" href="https://lucklyrics.ru">RU</a>
+      <a class="nav-lang" href="pt.html">PT</a>
+      <a class="nav-cta" href="#offer">Build my store</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Free tool for Amazon sellers</span>
+    <h1>See your <em>real</em> Amazon profit before you spend another ad dollar</h1>
+    <p class="hero-sub">An interactive unit-economics model built on the A10 ranking logic and 2026 FBA fees.
+      Move any lever — price, CPC, conversion, returns — and watch net profit, your bottleneck and your best next
+      move update instantly. Pick a product preset or plug in your own numbers.</p>
+    <div class="hero-free">Free to use · no signup · works on mobile</div>
+  </div>
+</header>
+
+<section class="model-section">
+  <div class="wrap">
+    <div class="model-shell">
+      <div class="model-topbar">
+        <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+        <span class="url">amazon-profit-model · live</span>
+      </div>
+      <iframe class="model-frame" id="modelFrame" src="Amazon-Sales-Funnel.html" title="Amazon Sales Funnel & Profit Model" loading="lazy"></iframe>
+    </div>
+    <p class="frame-note">Model not loading? <a href="Amazon-Sales-Funnel.html" target="_blank">Open it in a new tab →</a></p>
+  </div>
+</section>
+
+<section class="bridge">
+  <div class="wrap">
+    <div class="bridge-head">
+      <h2>The model shows the what. We build the how.</h2>
+      <p>The calculator tells you where your money leaks. The next step is fixing the storefront, funnel and
+        automation behind those numbers — that's what we do.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n">1</div>
+        <h3>Find the leak</h3>
+        <p>Use the model to spot your bottleneck stage and the single lever that moves profit most — conversion,
+          returns, ad efficiency or price.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">2</div>
+        <h3>We build the fix</h3>
+        <p>A multichannel storefront — website, Telegram, WhatsApp — from one dashboard, wired to convert the traffic
+          your Amazon listing already earns.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">3</div>
+        <h3>Launch in a day</h3>
+        <p>No developers, no months of work. Your own branded sales channel goes live fast, and the model becomes your
+          ongoing planning tool.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="offer" id="offer">
+  <div class="wrap">
+    <div class="offer-card">
+      <span class="eyebrow">For Amazon sellers ready to own their channel</span>
+      <h2>Stop renting your customers from <em>Amazon</em></h2>
+      <p>Amazon owns your buyer, your reviews and your margin. We build you a direct sales channel — an AI-powered
+        multichannel store — so you keep the customer and the profit the model above just showed you.</p>
+      <ul class="offer-list">
+        <li>Branded storefront live in one day, no developers</li>
+        <li>Sell from website, Telegram and WhatsApp in one dashboard</li>
+        <li>Same interactive model, tailored to your exact SKUs</li>
+        <li>Optional AI assistant that reads your numbers and advises</li>
+        <li>Your customer list, your reviews, your repeat sales</li>
+        <li>Ongoing support and data updates</li>
+      </ul>
+      <div class="offer-cta">
+        <a class="btn-gold" href="mailto:info@lucklyrics.com?subject=Amazon%20seller%20store%20—%20from%20the%20profit%20model">Build my store →</a>
+        <a class="btn-outline" href="index.html#packages">See pricing</a>
+      </div>
+      <div class="offer-alt">Or write directly: <a href="mailto:info@lucklyrics.com">info@lucklyrics.com</a></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-logo">Luck<span>Lyrics</span></div>
+      <div class="foot-links">
+        <a href="index.html#features">Platform</a>
+        <a href="index.html#cases">Cases</a>
+        <a href="index.html#packages">Pricing</a>
+        <a href="tools.html">Tools</a>
+        <a href="mailto:info@lucklyrics.com">Contact</a>
+      </div>
+    </div>
+    <p class="foot-note">The Amazon profit model is a free planning tool. All figures are illustrative modelling
+      assumptions built on publicly reported 2026 Amazon fees and the observed A10 ranking behaviour — always confirm
+      exact fees for your ASIN in Seller Central. LuckLyrics — AI-powered multichannel sales platform.</p>
+  </div>
+</footer>
+
+<script>
+  // auto-resize iframe to its content height when same-origin (after deploy on lucklyrics.com)
+  const frame = document.getElementById('modelFrame');
+  function fit(){
+    try{
+      const d = frame.contentDocument || frame.contentWindow.document;
+      const h = Math.max(d.body.scrollHeight, d.documentElement.scrollHeight);
+      if(h>400) frame.style.height = h + 'px';
+    }catch(e){ /* cross-origin before deploy — keep fixed height */ }
+  }
+  frame.addEventListener('load', ()=>{ fit(); setTimeout(fit,600); setTimeout(fit,1500); });
+  window.addEventListener('resize', fit);
+</script>
+</body>
+</html>
